@@ -1,5 +1,5 @@
 const UserModel = require("../model/user");
-
+const UserLocation = require("../model/userlocation");
 exports.create = async (req, res) => {
   const user = new UserModel({
     username: req.body.username,
@@ -20,7 +20,35 @@ exports.create = async (req, res) => {
       });
     });
 };
-
+exports.addlocation = async (req, res) => {
+  const location = new UserLocation({
+    username: req.body.username,
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
+    usercity : req.body.usercity
+  });
+  await location
+    .save()
+    .then((data) => {
+      res.send({
+        message: "sucess",
+        userlocation: data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error,
+      });
+    });
+};
+exports.getlocation = async (req,res)=>{
+  try{
+    const location = await UserLocation.find(req.usercity);
+    res.status(200).json(location);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
 exports.findAll = async (req, res) => {
   try {
     const user = await UserModel.find();
@@ -33,11 +61,11 @@ exports.findAll = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const user = await UserModel.findOne({ username: req.body.username });
-    if(user.password == req.body.password){
-        res.status(200).json({message : {success: true}});
+    if (user.password == req.body.password) {
+      res.status(200).json({ message: { success: true } });
     }
-    res.status(200).json({message : {success: false}});
-} catch (error) {
-    res.json({ message: {error:error , sucess : false} });
+    res.status(200).json({ message: { success: false } });
+  } catch (error) {
+    res.json({ message: { error: error, sucess: false } });
   }
 };

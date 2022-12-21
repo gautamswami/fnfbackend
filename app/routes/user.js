@@ -5,5 +5,6 @@ const router = express.Router();
 router.get('/getusers',UserController.findAll)
 router.post('/signup',UserController.create)
 router.post('/login',UserController.login)
-
+router.post('/addlocation',UserController.addlocation)
+router.post('/getcityusers',UserController.getlocation)
 module.exports = router
