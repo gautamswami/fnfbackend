@@ -19,6 +19,10 @@ var schema = new mongoose.Schema({
         type: String,
         required:false,
         default:"",
+    },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
     }
 }
     

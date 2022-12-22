@@ -23,8 +23,8 @@ exports.create = async (req, res) => {
 exports.addlocation = async (req, res) => {
   const location = new UserLocation({
     username: req.body.username,
-    longitude: req.body.longitude,
-    latitude: req.body.latitude,
+    userlongitude: req.body.userlongitude,
+    userlatitude: req.body.userlatitude,
     usercity : req.body.usercity
   });
   await location
@@ -43,7 +43,7 @@ exports.addlocation = async (req, res) => {
 };
 exports.getlocation = async (req,res)=>{
   try{
-    const location = await UserLocation.find(req.usercity);
+    const location = await UserLocation.find({usercity : req.body.usercity});
     res.status(200).json(location);
   } catch (error) {
     res.status(404).json({ message: error.message });
