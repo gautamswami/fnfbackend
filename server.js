@@ -8,7 +8,6 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())  
-let hostname = '0.0.0.0'
 const dbConfig = require('./config/database.config')
 const mongoose = require('mongoose')
 mongoose.connect(dbConfig.url).then(() => {
@@ -24,7 +23,7 @@ app.get('/cors', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.send({ "msg": "This has CORS enabled 🎈" })
     })
-app.listen(process.env.PORT || 3000,hostname, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("Server is listening on port 3000");
 });
 app.use('/user',UserRoute)
