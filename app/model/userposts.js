@@ -1,12 +1,12 @@
 var mongoose = require("mongoose");
 const schema = new mongoose.Schema({
-  posturl: {
-    type: String,
+  post: {
+    type: Object,
     required: false,
-    default: "",
   },
-  userId: {
+  username: {
     type: String,
+
     required: true,
   },
 });

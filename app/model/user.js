@@ -15,62 +15,73 @@ var schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  bio:{
-    type:String,
-    required:false,
-    default:""
+  bio: {
+    type: String,
+    required: false,
+    default: "",
   },
-  dp:{
-    type:String,
-    required:false,
-    default:""
-}, 
-instagram:{
-    type:String,
-    required:false,
-    default:"",
-},
-snapchat:{
-  type:String,
-  required:false,
-  default:"",
-},
-facebook:{
-  type:String,
-  required:false,
-  default:"",
-},
-linkedin:{
-  type:String,
-  required:false,
-  default:"",
-},
-instagram:{
-  type:String,
-  required:false,
-  default:"",
-},
-twitter:{
-  type:String,
-  required:false,
-  default:"",
-},
-youtube:{
-  type:String,
-  required:false,
-  default:"",
-},
-pinterest:{
-  type:String,
-  required:false,
-  default:"",
-},
-followers:{
+  dp: {
+    type: Object,
+    required: false,
+    default: "",
+  },
+  instagram: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  snapchat: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  facebook: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  linkedin: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  instagram: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  twitter: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  youtube: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  pinterest: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  followers: {
+    type: Array,
+    required: false,
+  },
 
-},
-following:{
-  
-}
+  followerrequest: {
+    type: Array,
+    required: false,
+  },
+  following: {
+    type: Array,
+    required: false,
+  },
+  followingrequest:{
+    type :Array ,
+    required:false
+  }
 });
 
 var user = new mongoose.model("User", schema);

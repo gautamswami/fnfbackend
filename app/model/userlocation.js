@@ -6,23 +6,19 @@ var schema = new mongoose.Schema({
         default: "",
     },
     userlongitude:{
-        type: String,
+        type: Number,
         required: true,
         default: "",
     },
     userlatitude:{
-        type: String,
-        required: false,
+        type: Number,
+        required: true,
         default: "",
     },
     usercity:{
         type: String,
-        required:false,
+        required:true,
         default:"",
-    },
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
     }
 }
     

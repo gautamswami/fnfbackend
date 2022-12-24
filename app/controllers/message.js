@@ -1,5 +1,6 @@
 const Message = require("../model/message");
 const Conversation = require("../model/conversation");
+const Room = require("../model/rooms")
 exports.sendmessage = async (req, res) => {
   const newMessage = new Message(req.body);
   try {
@@ -52,3 +53,55 @@ exports.getConversation = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+exports.createroom = async (req,res) =>{
+  try{
+    const rooms = new Room(req.body)
+    const roomcreate =await rooms.save()
+    res.status(200).json(roomcreate)
+  }
+  catch(err){
+    res.status(500).json(err)
+  }
+}
+
+exports.getcityrooms = async (req,res) =>{
+  try{
+    const rooms = await Room.find({roomlocation :req.body.roomlocation},{text : 0});
+    res.status(200).json(rooms)
+  }
+  catch(err){
+    res.status(500).json(err)
+  }
+}
+
+exports.getroom = async (req,res) => {
+  try{
+     const room = await Room.findOne({roomname : req.body.roomname});
+     res.status(200).json(room)
+  }
+  catch(err){
+    res.status(500).json(err)
+
+  }
+}
+exports.sendmessgeroom = async (req,res) =>{
+  try{
+    const message = await Room.findOneAndUpdate({roomname : req.body.roomname}, 
+      { $push: { text: req.body.text } },{new:true}
+    )
+    res.status(200).json(message)
+  }
+  catch(err){
+    res.status(500).json(err)
+  }
+}
+exports.getmessageroom = async (req,res) =>{
+  try{
+    const message = await Room.findOne({roomname : req.body.roomname})
+    res.status(200).json(message)
+  }
+  catch(err){
+    res.status(500).json(err)
+  }
+}
