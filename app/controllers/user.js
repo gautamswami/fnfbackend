@@ -2,10 +2,6 @@ const UserModel = require("../model/user");
 const UserLocation = require("../model/userlocation");
 const Userpost = require("../model/userposts");
 var multer = require("multer");
-const path = require("path");
-const upload = multer({
-  dest: "./upload/images",
-});
 exports.create = async (req, res) => {
   const user = new UserModel({
     username: req.body.username,
@@ -220,3 +216,23 @@ exports.deletefollower = async (req,res) => {
     console.log(err,'err')
   }
 }
+
+exports.imageadd= async(req,res)=>{
+
+    // Use the uploaded file's name as the asset's public ID and 
+    // allow overwriting the asset with new versions
+    const options = {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+    };
+
+    try {
+      // Upload the image
+      const result = await cloudinary.uploader.upload(imagePath, options);
+      console.log(result);
+      return result.public_id;
+    } catch (error) {
+      console.error(error);
+    }
+};

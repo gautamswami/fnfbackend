@@ -6,6 +6,9 @@ const multer = require("multer");
 const path = require("path");
 const UserModel = require("../model/user");
 const Userpost = require("../model/userposts");
+const cloudinary = require("./cloudinary");
+const uploader = require("./multer");
+
 const storage = multer.diskStorage({
   destination: "./uploads/dp",
   filename: (req, file, cb) => {
@@ -52,44 +55,42 @@ router.post("/sendmessageroom", MessageController.sendmessgeroom);
 router.get("/getmessageroom", MessageController.getmessageroom);
 
 //add media routes
-router.post("/adddp", upload.single("image"), async function (req, res, next) {
-  try {
-    const dp = await UserModel.findOneAndUpdate(
-      {
-        username: req.body.username,
-      },
-      { dp: req.file },
-      { new: true }
-    );
-
-    res.status(200).json(dp);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-router.post(
-  "/addpost",
-  uploadpost.single("image"),
-  async function (req, res, next) {
-    const post = new Userpost({
+router.post("/image", UserController.imageadd);
+router.post("/adddp", uploader.single("image"), async (req, res) => {
+  const upload = await cloudinary.v2.uploader.upload(req.file.path);
+  res.json({
+    success: true,
+    file: upload.secure_url,
+  });
+  await UserModel.findOneAndUpdate(
+    {
       username: req.body.username,
-      post: req.file,
-    });
-    try {
-      const user = await post.save();
-      res.status(200).json(user);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
-);
+    },
+    { dp: upload.secure_url },
+    { new: true }
+  );
+});
 
-router.post('/followuser',UserController.followuser)
-router.post('/acceptfollow',UserController.acceptfollow)
-router.post('/deletefollowrequest',UserController.deletefollowrequest)
-router.post('/deletefollower',UserController.deletefollower)
+router.post("/addpost", uploader.single("image"), async (req, res) => {
+  
+  const upload = await cloudinary.v2.uploader.upload(req.file.path);
+  res.json({
+    success: true,
+    file: upload.secure_url,
+  });
+  let userpost = new Userpost({
+    username: req.body.username,
+    post: upload.secure_url,
+  });
+  await userpost.save();
+});
+
+router.post("/followuser", UserController.followuser);
+router.post("/acceptfollow", UserController.acceptfollow);
+router.post("/deletefollowrequest", UserController.deletefollowrequest);
+router.post("/deletefollower", UserController.deletefollower);
 
 router.post("/updateuser", UserController.updateuser);
-router.get("/twouserconversation", MessageController.getConversation);
+router.post("/twouserconversation", MessageController.getConversation);
 router.get("/getusers", UserController.findAll);
 module.exports = router;
