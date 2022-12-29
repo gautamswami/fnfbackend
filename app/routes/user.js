@@ -43,7 +43,7 @@ router.post("/getpost", UserController.getpost);
 //create convo get user convo get user details of that convo and get message on open
 
 router.post("/newconversation", MessageController.newConversation);
-router.get("/userconversation", MessageController.getuserConversation);
+router.post("/userconversation", MessageController.getuserConversation);
 router.get("/getmessage", MessageController.getmessage);
 router.post("/sendmessage", MessageController.sendmessage);
 
