@@ -44,7 +44,7 @@ router.post("/getpost", UserController.getpost);
 
 router.post("/newconversation", MessageController.newConversation);
 router.post("/userconversation", MessageController.getuserConversation);
-router.get("/getmessage", MessageController.getmessage);
+router.post("/getmessage", MessageController.getmessage);
 router.post("/sendmessage", MessageController.sendmessage);
 
 //create anonymous room get city room send message get messagei
