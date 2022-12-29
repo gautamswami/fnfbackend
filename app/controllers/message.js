@@ -14,7 +14,7 @@ exports.sendmessage = async (req, res) => {
 exports.getmessage = async (req, res) => {
   try {
     const messages = await Message.find({
-      converstaionId: req.body.conversationId,
+      _id: req.body.conversationId,
     });
     res.status(200).json(messages);
   } catch (e) {
