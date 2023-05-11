@@ -28,16 +28,16 @@ exports.login = async (req, res) => {
     const user = await UserModel.findOne({ username: req.body.username });
     if (user.password == req.body.password) {
       res.status(200).json({ message: { success: true } });
+    } else {
+      res.status(200).json({ message: { success: false } });
     }
-    res.status(200).json({ message: { success: false } });
   } catch (error) {
     res.json({ message: { error: error, sucess: false } });
   }
 };
 exports.updateuser = async (req, res) => {
-  // console.log(req.body, "req");
+  
   try {
-    // const user = await UserModel.findOne(req.body.find);
     const user = await UserModel.findOneAndUpdate(
       req.body.find,
       req.body.update,
@@ -82,7 +82,6 @@ exports.getpost = async (req, res) => {
 };
 exports.addlocation = async (req, res) => {
   try {
-    console.log('loc run')
     const location = await UserLocation.findOneAndUpdate(
       { username: req.body.username },
       {
@@ -108,19 +107,18 @@ exports.getlocation = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
-
 exports.followuser = async (req, res) => {
   try {
     const following = await UserModel.findOneAndUpdate(
       { username: req.body.username },
-      { $push: { followingrequest: req.body.tofollowname } },
+      { $push: { followbyyourequest: req.body.tofollowname } },
       { new: true }
     );
     const follower = await UserModel.findOneAndUpdate(
       {
         username: req.body.tofollowname,
       },
-      { $push: { followerrequest: req.body.username } },
+      { $push: { tofollowyourequest: req.body.username } },
       { new: true }
     );
     res.status(200).json(following);
@@ -137,13 +135,13 @@ exports.acceptfollow = async (req, res) => {
       },
       {
         $push: { followers: req.body.followername },
-        $pull:{
-          followerrequest : req.body.followername
-        }
+        $pull: {
+          followerrequest: req.body.followername,
+        },
       },
       { new: true }
     );
-  await UserModel.findOneAndUpdate(
+    await UserModel.findOneAndUpdate(
       {
         username: req.body.followername,
       },
@@ -172,7 +170,7 @@ exports.deletefollowrequest = async (req, res) => {
       },
       { new: true }
     );
-    
+
     res.status(200).json(del);
     await UserModel.updateOne(
       { username: req.body.followername },
@@ -183,56 +181,53 @@ exports.deletefollowrequest = async (req, res) => {
       },
       { new: true }
     );
-
   } catch (er) {
     res.status(500).json(er);
-    console.log(er,'error')
+    console.log(er, "error");
   }
 };
-exports.deletefollower = async (req,res) => {
-  try{
+exports.deletefollower = async (req, res) => {
+  try {
     const del = await UserModel.updateOne(
-      {username : req.body.username},
+      { username: req.body.username },
       {
-        $pull : {
-          followers : req.body.followername
-        }
+        $pull: {
+          followers: req.body.followername,
+        },
       },
-      {new : true}
-    )
-    res.status(200).json(del)
+      { new: true }
+    );
+    res.status(200).json(del);
     await UserModel.updateOne(
-      {username : req.body.followername},
+      { username: req.body.followername },
       {
-        $pull : {
-          following : req.body.username
-        }
+        $pull: {
+          following: req.body.username,
+        },
       },
-      {new : true}
-    )
+      { new: true }
+    );
+  } catch (err) {
+    res.status(500).json(err);
+    console.log(err, "err");
   }
-  catch(err){
-    res.status(500).json(err)
-    console.log(err,'err')
+};
+
+exports.imageadd = async (req, res) => {
+  // Use the uploaded file's name as the asset's public ID and
+  // allow overwriting the asset with new versions
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
+
+  try {
+    // Upload the image
+    const result = await cloudinary.uploader.upload(imagePath, options);
+    console.log(result);
+    return result.public_id;
+  } catch (error) {
+    console.error(error);
   }
-}
-
-exports.imageadd= async(req,res)=>{
-
-    // Use the uploaded file's name as the asset's public ID and 
-    // allow overwriting the asset with new versions
-    const options = {
-      use_filename: true,
-      unique_filename: false,
-      overwrite: true,
-    };
-
-    try {
-      // Upload the image
-      const result = await cloudinary.uploader.upload(imagePath, options);
-      console.log(result);
-      return result.public_id;
-    } catch (error) {
-      console.error(error);
-    }
 };

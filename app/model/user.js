@@ -70,7 +70,7 @@ var schema = new mongoose.Schema({
     required: false,
   },
 
-  followerrequest: {
+  tofollowyourequest: {
     type: Array,
     required: false,
   },
@@ -78,7 +78,7 @@ var schema = new mongoose.Schema({
     type: Array,
     required: false,
   },
-  followingrequest:{
+  followbyyourequest:{
     type :Array ,
     required:false
   }
