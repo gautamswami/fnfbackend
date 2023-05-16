@@ -136,7 +136,7 @@ exports.acceptfollow = async (req, res) => {
       {
         $push: { followers: req.body.followername },
         $pull: {
-          followerrequest: req.body.followername,
+          tofollowyourequest: req.body.followername,
         },
       },
       { new: true }
@@ -149,7 +149,7 @@ exports.acceptfollow = async (req, res) => {
       {
         $push: { following: req.body.username },
         $pull: {
-          followingrequest: req.body.username,
+          followbyyourequest: req.body.username,
         },
       },
       { new: true }
@@ -165,7 +165,7 @@ exports.deletefollowrequest = async (req, res) => {
       { username: req.body.username },
       {
         $pull: {
-          followerrequest: req.body.followername,
+          tofollowyourequest: req.body.followername,
         },
       },
       { new: true }
@@ -176,7 +176,7 @@ exports.deletefollowrequest = async (req, res) => {
       { username: req.body.followername },
       {
         $pull: {
-          followingrequest: req.body.username,
+          followbyyourequest: req.body.username,
         },
       },
       { new: true }
