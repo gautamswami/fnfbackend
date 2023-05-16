@@ -89,7 +89,7 @@ router.post("/followuser", UserController.followuser);
 router.post("/acceptfollow", UserController.acceptfollow);
 router.post("/deletefollowrequest", UserController.deletefollowrequest);
 router.post("/deletefollower", UserController.deletefollower);
-
+router.post("/deletefollowing",UserController.deletefollowing)
 router.post("/updateuser", UserController.updateuser);
 router.post("/twouserconversation", MessageController.getConversation);
 router.get("/getusers", UserController.findAll);

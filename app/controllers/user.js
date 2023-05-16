@@ -212,7 +212,32 @@ exports.deletefollower = async (req, res) => {
     console.log(err, "err");
   }
 };
-
+exports.deletefollowing = async (req, res) => {
+  try {
+    const del = await UserModel.updateOne(
+      { username: req.body.username },
+      {
+        $pull: {
+          following: req.body.followername,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(del);
+    await UserModel.updateOne(
+      { username: req.body.followername },
+      {
+        $pull: {
+          followers: req.body.username,
+        },
+      },
+      { new: true }
+    );
+  } catch (err) {
+    res.status(500).json(err);
+    console.log(err, "err");
+  }
+};
 exports.imageadd = async (req, res) => {
   // Use the uploaded file's name as the asset's public ID and
   // allow overwriting the asset with new versions
