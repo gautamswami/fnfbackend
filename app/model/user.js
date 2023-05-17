@@ -45,11 +45,7 @@ var schema = new mongoose.Schema({
     required: false,
     default: "",
   },
-  instagram: {
-    type: String,
-    required: false,
-    default: "",
-  },
+
   twitter: {
     type: String,
     required: false,
@@ -61,6 +57,11 @@ var schema = new mongoose.Schema({
     default: "",
   },
   pinterest: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  whatsapp:{
     type: String,
     required: false,
     default: "",
