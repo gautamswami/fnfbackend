@@ -85,6 +85,7 @@ router.post("/addpost", uploader.single("image"), async (req, res) => {
   await userpost.save();
 });
 
+router.post("/friendsposts",UserController.friendsposts)
 router.post("/followuser", UserController.followuser);
 router.post("/acceptfollow", UserController.acceptfollow);
 router.post("/deletefollowrequest", UserController.deletefollowrequest);

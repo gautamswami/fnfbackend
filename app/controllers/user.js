@@ -256,3 +256,25 @@ exports.imageadd = async (req, res) => {
     console.error(error);
   }
 };
+
+exports.friendsposts = async(req,res)=>{
+  try {
+    const { username } = req.body;
+
+    // Find the user based on the username
+    const user = await UserModel.findOne({ username });
+    console.log(user)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find all posts of the user's friends
+    const friendsPosts = await Userpost.find({ username: { $in: user.following } });
+    console.log(friendsPosts)
+
+    res.json(friendsPosts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
