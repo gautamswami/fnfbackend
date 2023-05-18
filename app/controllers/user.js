@@ -101,11 +101,29 @@ exports.addlocation = async (req, res) => {
 };
 exports.getlocation = async (req, res) => {
   try {
-    const location = await UserLocation.find({ usercity: req.body.usercity });
-    res.status(200).json(location);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
+    // const location = await UserLocation.find({ usercity: req.body.usercity });
+ 
+      const { usercity } = req.params;
+  
+      // Find all user locations in the specified city
+      const userLocations = await UserLocation.find({ userCity: usercity });
+  
+      if (userLocations.length === 0) {
+        return res.status(404).json({ message: 'No users found in the specified city' });
+      }
+  
+      // Get the usernames from the user locations
+      const usernames = userLocations.map(userLocation => userLocation.username);
+  
+      // Find the users based on the usernames
+      const users = await UserModel.find({ username: { $in: usernames } }).select('username dp ');
+  
+      res.json(users);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+   
 };
 exports.followuser = async (req, res) => {
   try {
