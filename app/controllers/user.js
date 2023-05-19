@@ -103,10 +103,10 @@ exports.getlocation = async (req, res) => {
   try {
     // const location = await UserLocation.find({ usercity: req.body.usercity });
  
-      const { usercity } = req.params;
+      const { usercity } = req.body;
   
       // Find all user locations in the specified city
-      const userLocations = await UserLocation.find({ userCity: usercity });
+      const userLocations = await UserLocation.find({ usercity: usercity });
   
       if (userLocations.length === 0) {
         return res.status(404).json({ message: 'No users found in the specified city' });
