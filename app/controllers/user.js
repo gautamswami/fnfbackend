@@ -1,7 +1,8 @@
 const UserModel = require("../model/user");
 const UserLocation = require("../model/userlocation");
 const Userpost = require("../model/userposts");
-var multer = require("multer");
+const cloudinary = require('../routes/cloudinary')
+
 exports.create = async (req, res) => {
   const user = new UserModel({
     username: req.body.username,
@@ -294,5 +295,20 @@ exports.friendsposts = async(req,res)=>{
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+}
+exports.newpost  = async (req,res)=>{
+  try{
+    const base64Image = req.body.image; // Assuming the image is sent in the request body as 'image' parameter
+ 
+    cloudinary.uploader.upload(base64Image, (error, result) => {
+      if (error) {
+        return res.status(500).json({ error: 'Failed to upload image' });
+      }
+      res.json({ imageUrl: result.secure_url });
+    });
+  }
+  catch(e){
+    res.status(500).json({message:e})
   }
 }

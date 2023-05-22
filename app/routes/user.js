@@ -72,25 +72,28 @@ router.post("/adddp", uploader.single("image"), async (req, res) => {
 });
 
 router.post("/addpost", uploader.single("image"), async (req, res) => {
-  
-  const upload = await cloudinary.v2.uploader.upload(req.file.path);
-  res.json({
-    success: true,
-    file: upload.secure_url,
-  });
-  let userpost = new Userpost({
-    username: req.body.username,
-    post: upload.secure_url,
-  });
-  await userpost.save();
+  try {
+    const upload = await cloudinary.v2.uploader.upload(req.file.path);
+    res.json({
+      success: true,
+      file: upload.secure_url,
+    });
+    let userpost = new Userpost({
+      username: req.body.username,
+      post: upload.secure_url,
+    });
+    await userpost.save();
+  } catch (e) {
+    res.status(500).json("ERROR");
+  }
 });
-
-router.post("/friendsposts",UserController.friendsposts)
+router.post('/newpost',UserController.newpost);
+router.post("/friendsposts", UserController.friendsposts);
 router.post("/followuser", UserController.followuser);
 router.post("/acceptfollow", UserController.acceptfollow);
 router.post("/deletefollowrequest", UserController.deletefollowrequest);
 router.post("/deletefollower", UserController.deletefollower);
-router.post("/deletefollowing",UserController.deletefollowing)
+router.post("/deletefollowing", UserController.deletefollowing);
 router.post("/updateuser", UserController.updateuser);
 router.post("/twouserconversation", MessageController.getConversation);
 router.get("/getusers", UserController.findAll);

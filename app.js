@@ -6,8 +6,8 @@ const app = express();
 var cors = require('cors')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-app.use(bodyParser.json())  
+// app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }))  
 const dbConfig = require('./config/database.config')
 const mongoose = require('mongoose')
 mongoose.connect(dbConfig.url).then(() => {
