@@ -351,3 +351,12 @@ exports.adddp = async (req, res) => {
     res.status(500).json({ ERROR: e });
   }
 };
+exports.deletepost = async (req, res) => {
+  try {
+    let id = req.body.id;
+    let result = await Userpost.findByIdAndDelete(id);
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+};

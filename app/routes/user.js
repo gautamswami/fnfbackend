@@ -31,9 +31,9 @@ router.get("/getmessageroom", MessageController.getmessageroom);
 
 //add media routes
 router.post("/image", UserController.imageadd);
-router.post("/adddp", uploader.single("image"), UserController.adddp);
-
+router.post("/adddp", UserController.adddp);
 router.post("/newpost", UserController.newpost);
+router.post("/deletepost",UserController.deletepost)
 router.post("/friendsposts", UserController.friendsposts);
 router.post("/followuser", UserController.followuser);
 router.post("/acceptfollow", UserController.acceptfollow);
