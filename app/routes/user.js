@@ -24,7 +24,7 @@ router.post("/sendmessage", MessageController.sendmessage);
 
 //create anonymous room get city room send message get messagei
 router.post("/createroom", MessageController.createroom);
-router.get("/getcityrooms", MessageController.getcityrooms);
+router.post("/getcityrooms", MessageController.getcityrooms);
 router.get("/getroom", MessageController.getroom);
 router.post("/sendmessageroom", MessageController.sendmessgeroom);
 router.get("/getmessageroom", MessageController.getmessageroom);
