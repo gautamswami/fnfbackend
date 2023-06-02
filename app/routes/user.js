@@ -27,7 +27,7 @@ router.post("/createroom", MessageController.createroom);
 router.post("/getcityrooms", MessageController.getcityrooms);
 router.get("/getroom", MessageController.getroom);
 router.post("/sendmessageroom", MessageController.sendmessgeroom);
-router.get("/getmessageroom", MessageController.getmessageroom);
+router.post("/getmessageroom", MessageController.getmessageroom);
 
 //add media routes
 router.post("/image", UserController.imageadd);

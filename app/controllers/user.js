@@ -312,8 +312,9 @@ exports.newpost = async (req, res) => {
       (error, result) => {
         if (error) {
           return res.status(500).json({ error: "Failed to upload image" });
+        } else {
+          res.json({ imageUrl: result.secure_url });
         }
-        res.json({ imageUrl: result.secure_url });
       }
     );
     console.log(uploaded);
@@ -322,7 +323,11 @@ exports.newpost = async (req, res) => {
       username: req.body.username,
       post: uploaded.secure_url,
     });
-    await userpost.save();
+    try {
+      await userpost.save();
+    } catch (e) {
+      console.log("EROR");
+    }
   } catch (e) {
     res.status(500).json({ ERROR: e });
   }
